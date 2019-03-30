@@ -1,0 +1,45 @@
+#include <IRremote.h>
+
+const int RECV_PIN = 4, redLED = 8, yellowLED = 7, togglestateR = 0, togglestateY = 0;
+
+IRrecv irrecv(RECV_PIN);
+decode_results results;
+
+
+void setup() {
+  irrecv.enableIRIn();
+  pinMode(redPin, OUTPUT);
+  pinMode(yellowPin, OUTPUT);
+}
+
+
+void loop() {
+  if (irrecv.decode(&results)) {
+    switch (results.value) {
+      
+      case red: //Red Button on Keypad
+        if (togglestateR == 0) {
+          digitalWrite(redLED, HIGH);
+          togglestateR = 1;
+        }
+        else {
+          digitalWrite(redLED, LOW);
+          togglestateR = 0;
+        }
+        break;
+
+      case yellow: //Yellow Button on Keypad
+        if (togglestateY == 0) {
+          digitalWrite(yellowLED, HIGH);
+          togglestateY = 1;
+        }
+        else {
+          digitalWrite(yellowLED, LOW);
+          togglestateY = 0;
+        }
+        break;
+        
+    }
+    irrecv.resume();
+  }
+}
